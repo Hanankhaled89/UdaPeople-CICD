@@ -202,7 +202,7 @@ jobs:
       # Here's where you will add some code to rollback on failure      
       - destroy-environment
          
-configure-infrastructure:
+  configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
       - image: cimg/base:stable
@@ -213,9 +213,9 @@ configure-infrastructure:
       - checkout
       - install_ansible
       - add_ssh_keys:
-          fingerprints:["44:87:f8:c8:91:a0:ae:4f:c5:6d:0c:16:3b:a8:61:87"]
+          fingerprints: ["44:87:f8:c8:91:a0:ae:4f:c5:6d:0c:16:3b:a8:61:87"]
       - attach_workspace:
-            at:~/
+            at: ~/
       # - run:
       #     name: Install dependencies
       #     command: |
@@ -226,7 +226,6 @@ configure-infrastructure:
           command: |
             cd .circleci/ansible
             cat inventory.txt
-
             ansible-playbook -i inventory.txt configure-server.yml
 
       # Here's where you will add some code to rollback on failure      
