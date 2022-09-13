@@ -30,16 +30,15 @@ destroy-environment:
     steps:
     - run:
         name: Destroy environments
-        #when: on_fail
-        when: << parameters.when_to_run >>
+        when: on_fail
+        
         command: |
-          # Empty frontend bucket
+     
           aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
 
-          # Delete frontend stack
+          
           aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
 
-          # Delete backend stack
           aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
 
 
@@ -162,7 +161,7 @@ jobs:
 #              nmp audit fix --force --audit-level=critical
 #              npm  audit    audit-level=critical
 
-  deploy-infrastructure:
+deploy-infrastructure:
     docker:
       # Docker image here that supports AWS CLI
       - image: cimg/base:stable
@@ -202,7 +201,7 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure      
       - destroy-environment:
-          when_to_run: always
+         
 configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
@@ -231,7 +230,7 @@ configure-infrastructure:
             ansible-playbook -i inventory.txt configure-server.yml
 
       # Here's where you will add some code to rollback on failure      
-      #- destroy-environment
+      - destroy-environment
 #   run-migrations:
 #     docker:
 #       # Docker image here that supports NodeJS
