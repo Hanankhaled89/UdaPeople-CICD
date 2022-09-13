@@ -30,7 +30,8 @@ destroy-environment:
     steps:
     - run:
         name: Destroy environments
-        when: on_fail
+        #when: on_fail
+        when: << parameters.when_to_run >>
         command: |
           # Empty frontend bucket
           aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
