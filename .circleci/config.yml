@@ -28,6 +28,8 @@ commands:
           command: |
             curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
             sudo apt-get install -y nodejs
+  #install_npm:
+
   destroy-environment:
       description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
       parameters:
@@ -320,6 +322,7 @@ jobs:
       - checkout
       - install_awscli
       - install_ansible
+      - install_nodejs
       - add_ssh_keys:
           fingerprints: ["44:87:f8:c8:91:a0:ae:4f:c5:6d:0c:16:3b:a8:61:87"]
       - attach_workspace:
@@ -329,7 +332,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # your code here
             cd backend
             npm install
       - run:
