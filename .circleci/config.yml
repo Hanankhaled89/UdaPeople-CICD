@@ -248,13 +248,11 @@ jobs:
       - destroy-environment
   run-migrations:
     docker:
-      # Docker image here that supports NodeJS
      - image: cimg/node:13.8.0
     steps:
-      # Checkout code from git
       - checkout
       - install_awscli
-      - install_nodejs
+  
       - run:
           name: Run migrations
           command: |
@@ -384,7 +382,8 @@ jobs:
                 --output text)
 
             export API_URL=http://${BACKEND_PUBLIC_IP}:3030
-            if curl -s $API_URL/api/staus | grep "ok"
+            echo "${API_URL}"
+            if curl  "$API_URL/api/staus" | grep "ok"
             then
               exit 0
             else
