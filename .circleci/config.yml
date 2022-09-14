@@ -236,7 +236,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
 
       # Here's where you will add some code to rollback on failure      
-     # - destroy-environment
+      - destroy-environment
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
@@ -250,6 +250,7 @@ jobs:
           command: |
             cd backend
             npm install
+            npm run premigrations
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
       - run:
