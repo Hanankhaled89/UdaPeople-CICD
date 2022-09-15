@@ -382,14 +382,19 @@ jobs:
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --output text)
 
-            echo "PublicIp: ${ BACKEND_PUBLIC_IP}"
+            echo ==================
+            echo "PublicIp: ${BACKEND_PUBLIC_IP}"
 
             export API_URL= http://${BACKEND_PUBLIC_IP}:3030
 
-            echo "APIURL: ${API_URL}"
-                
-            if curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok"
+            echo ==================
+            
+            echo "fullAPIURL: ${API_URL}"
+            echo ==================
+            echo "firstline: ${API_URL}" | head -1
+
             #if curl  "$API_URL/api/staus" | grep "ok"
+            if curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok"
             then
               exit 0
             else
