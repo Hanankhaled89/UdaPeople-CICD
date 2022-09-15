@@ -394,7 +394,7 @@ jobs:
             #echo "firstline: ${API_URL}" | head -1
 
             #if curl  "$API_URL/api/staus" | grep "ok"
-            if curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok"
+            if [(curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok")]
             then
               exit 0
             else
