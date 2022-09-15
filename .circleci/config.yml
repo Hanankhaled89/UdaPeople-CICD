@@ -358,14 +358,15 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: cimg/base:stable
+      #- image: cimg/base:stable
+      - image: cimg/node:13.8.0
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
       # attach workspace
       - checkout
       - install_awscli
-      - install_nodejs
+      #- install_nodejs
       # - run:
       #     name: Install dependencies
       #     command: |
@@ -377,27 +378,40 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-                --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-                --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                --output text)
+            # BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+            #     --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            #     --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            #     --output text)
 
-            echo ==================
-            echo "PublicIp: ${BACKEND_PUBLIC_IP}"
+            # echo ==================
+            # echo "PublicIp: ${BACKEND_PUBLIC_IP}"
 
-            #export API_URL= http://${BACKEND_PUBLIC_IP}:3030
+            # export API_URL1=http://${BACKEND_PUBLIC_IP}:3030
 
-            echo ==================
+            # echo ==================
             
-            #echo "fullAPIURL: ${API_URL}"
-            echo ==================
-            #echo "firstline: ${API_URL}" | head -1
+            # #echo "fullAPIURL: ${API_URL1}"
+            # echo ==================
+            # #echo "firstline: ${API_URL1}" | head -1
 
-            #if curl  "$API_URL/api/staus" | grep "ok"
-            if [(curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok")]
+            # if curl  "$API_URL1/api/staus" | grep "ok"
+            # #if curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok"
+            # then
+            #   exit 0
+            # else
+            #   exit 1
+            # fi
+
+            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            
+            URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
+            # URL="http://g00gle.com"
+            if curl -s --head ${URL}
             then
+              echo "It worked!"
               exit 0
             else
+              echo "Rolling Back"
               exit 1
             fi
 
@@ -414,8 +428,8 @@ jobs:
             fi
 
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment
-      - revert-migrations
+      #- destroy-environment
+      #- revert-migrations
 #   cloudfront-update:
 #     docker:
 #       # Docker image here that supports AWS CLI
