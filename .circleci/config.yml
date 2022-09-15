@@ -246,6 +246,7 @@ jobs:
 
       # Here's where you will add some code to rollback on failure      
       - destroy-environment
+  #npm run premigrations
   run-migrations:
     docker:
      - image: cimg/node:13.8.0
@@ -258,7 +259,7 @@ jobs:
           command: |
             cd backend
             npm install
-            npm run premigrations
+            
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
       - run:
@@ -381,9 +382,14 @@ jobs:
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --output text)
 
-            export API_URL=http://${BACKEND_PUBLIC_IP}:3030
-            echo "${API_URL}"
-            if curl  "$API_URL/api/staus" | grep "ok"
+            echo "PublicIp: ${ BACKEND_PUBLIC_IP}"
+
+            export API_URL= http://${BACKEND_PUBLIC_IP}:3030
+
+            echo "APIURL: ${API_URL}"
+                
+            if curl  "http://${BACKEND_PUBLIC_IP}:3030/api/staus" | grep "ok"
+            #if curl  "$API_URL/api/staus" | grep "ok"
             then
               exit 0
             else
