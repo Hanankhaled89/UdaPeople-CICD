@@ -402,7 +402,7 @@ jobs:
             #   exit 1
             # fi
 
-            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}")
             
             URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
             # URL="http://g00gle.com"
@@ -428,8 +428,8 @@ jobs:
             fi
 
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment
-      - revert-migrations
+      #- destroy-environment
+      #- revert-migrations
 #   cloudfront-update:
 #     docker:
 #       # Docker image here that supports AWS CLI
