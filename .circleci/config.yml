@@ -178,7 +178,7 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      # Docker image here that supports AWS CLI
+      # Docker image here that supports AWS CLI############
       - image: cimg/base:stable
     steps:
       - checkout
