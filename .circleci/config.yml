@@ -216,6 +216,7 @@ jobs:
               - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure      
       - destroy-environment
+      #
          
   configure-infrastructure:
     docker:
