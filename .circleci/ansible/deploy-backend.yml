@@ -1,7 +1,8 @@
 ---
 - name: "configuration play." 
   hosts: web
-  user: ubuntu
+  user: ec2-user #ubuntu
+  become_method: sudo
   gather_facts: false
   vars:
     - ansible_python_interpreter: /usr/bin/python3
