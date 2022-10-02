@@ -1,7 +1,7 @@
 ---
 - name: "configuration play." 
   hosts: web
-  user: ec2-user #ec2-user ubuntu 
+  user: ec2-user 
   become_method: sudo
   gather_facts: false
   vars:
