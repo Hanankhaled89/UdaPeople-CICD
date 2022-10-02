@@ -12,7 +12,13 @@
     - ansible_stdout_callback: yaml
  #raw: npm test --watchAll --detectOpenHandles --forceExit
   pre_tasks:
-    - name: "Test and wait 600 seconds for target connection to become reachable/usable."
+    - name: "test the server."
+      become: true
+      raw: npm test --watchAll --detectOpenHandles --forceExit
+      changed_when: false
+
+
+    - name: "wait 600 seconds for target connection to become reachable/usable."
       wait_for_connection:
         timeout: 600
 
