@@ -247,7 +247,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
 
       # Here's where you will add some code to rollback on failure      
-      - destroy-environment
+     # - destroy-environment
   #npm run premigrations
   run-migrations:
     docker:
@@ -271,7 +271,9 @@ jobs:
                 echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
                 echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
             npm install
-            npm audit fix
+            #npm init
+            #npm audit fix
+            npm run build
             npm run premigrations
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
