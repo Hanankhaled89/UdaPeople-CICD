@@ -271,10 +271,10 @@ jobs:
                 echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
                 echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
             npm install
-            #npm init
-            #npm audit fix
-            npm run build
-            npm run premigrations
+            npm init
+            #npm run build
+            npm audit fix
+            #npm run premigrations
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
             cat .env
