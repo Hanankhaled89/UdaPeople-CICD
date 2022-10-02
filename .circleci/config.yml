@@ -271,6 +271,7 @@ jobs:
                 echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
                 echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
             npm install
+            npm audit fix --force  --audit-level=critical
             #npm run premigrations
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
