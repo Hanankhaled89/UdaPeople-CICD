@@ -280,7 +280,7 @@ jobs:
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
             cat .env
-      #"has been executed successfully"
+      ##"has been executed successfully"
       - run:
           name: Send migration results to kvdb.io
           command: |
