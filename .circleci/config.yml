@@ -284,7 +284,10 @@ jobs:
             #npm audit fix --force
             #pm audit fix
             #npm run premigrations
-            npm run migrations > migrations_dump.txt
+            #npm run migrations > migrations_dump.txt
+            npm i
+            npm run build
+            npm run migrations >> migrations_dump.txt
             cat migrations_dump.txt    
             cat .env
       ##"has been executed successfully"
@@ -292,7 +295,7 @@ jobs:
           name: Send migration results to kvdb.io
           command: |
            
-            if grep -q "executed" ~/project/backend/migrations_dump.txt
+            if grep -q "No migrations are pending" ~/project/backend/migrations_dump.txt
             then
               curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             else
