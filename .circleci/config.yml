@@ -274,7 +274,7 @@ jobs:
             #npm init
             #npm run build
             #npm audit fix
-            npm audit fix --force
+            #npm audit fix --force
             pm run premigrations
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
