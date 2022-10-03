@@ -255,6 +255,7 @@ jobs:
     steps:
       - checkout
       - install_awscli
+      - install_nodejs
   
       - run:
           name: Run migrations
@@ -271,12 +272,13 @@ jobs:
                 # echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
                 # echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
             npm install
+            npm audit fix --force  --audit-level=critical
             #npm init
             #npm run build
             #npm audit fix
             #npm audit fix --force
-            npm audit fix
-            npm run premigrations
+            #pm audit fix
+            #npm run premigrations
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt    
             cat .env
