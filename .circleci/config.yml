@@ -29,8 +29,8 @@ commands:
             curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
             sudo apt-get install -y nodejs
 
-            sudo npm install -g n
-            sudo n 13.8.0
+            # sudo npm install -g n
+            # sudo n 13.8.0
   #install_npm:
 
   destroy-environment:
@@ -261,8 +261,7 @@ jobs:
       - checkout
       - install_awscli
       - install_nodejs
-      # - restore_cache:
-      #     keys: [backend-deps]
+    
   
       - run:
           name: Run migrations
@@ -412,31 +411,31 @@ jobs:
             #   exit 1
             # fi
 
-            # export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}")
+            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}")
             
-            # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
-            # #URL="http://google.com"
+            URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
+            #URL="http://google.com"
 
-            # if curl -s --head ${URL}
-            # then
-            #   echo "It worked!"
-            #   exit 0
-            # else
-            #   echo "Rolling Back"
-            #   exit 1
-            # fi
-
-            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-            export API_URL="http://$BACKEND_PUBLIC_IP:3030"
-            if curl -s $API_URL/api/status | grep "ok"
+            if curl -s --head ${URL}
             then
+              echo "It worked!"
               exit 0
             else
+              echo "Rolling Back"
               exit 1
             fi
+
+            # BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+            #   --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            #   --output text)
+            # export API_URL="http://$BACKEND_PUBLIC_IP:3030"
+            # if curl -s $API_URL/api/status | grep "ok"
+            # then
+            #   exit 0
+            # else
+            #   exit 1
+            # fi
 
 
       - run:
