@@ -28,6 +28,9 @@ commands:
           command: |
             curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
             sudo apt-get install -y nodejs
+
+            sudo npm install -g n
+            sudo n 13.8.0
   #install_npm:
 
   destroy-environment:
@@ -252,7 +255,7 @@ jobs:
   #npm run premigrations
   run-migrations:
     docker:
-     - image: cimg/base:stable  #cimg/node:13.8.0 
+     - image: cimg/node:13.8.0 #cimg/base:stable  
     steps:
       - checkout
       - install_awscli
@@ -267,7 +270,6 @@ jobs:
           command: |
             cd backend
             npm install
-            #npm run premigrations
             npm run migrations >> migrations_dump.txt
             cat migrations_dump.txt    
             
