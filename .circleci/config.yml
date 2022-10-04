@@ -252,7 +252,7 @@ jobs:
   #npm run premigrations
   run-migrations:
     docker:
-     - image:  cimg/node:13.8.0 #cimg/base:stable
+     - image: cimg/base:stable  #cimg/node:13.8.0 
     steps:
       - checkout
       - install_awscli
@@ -283,8 +283,8 @@ jobs:
               echo "No migrations are pending" 
             fi
 
-      - destroy-environment
-      - revert-migrations
+    #  - destroy-environment
+    #  - revert-migrations
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
@@ -371,8 +371,8 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      #- image: cimg/base:stable
-      - image:  cimg/node:13.8.0
+      - image: cimg/base:stable
+      #- image:  cimg/node:13.8.0
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -380,15 +380,8 @@ jobs:
       - checkout
       - install_awscli
       - install_ansible
-      #- install_nodejs
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       # your code here
-      # - run:
-      #     name: Get backend url
-      #     command: |
-      #       # your code here
+      - install_nodejs
+    
       - run:
           name: Backend smoke test.
           command: |
@@ -418,17 +411,29 @@ jobs:
             #   exit 1
             # fi
 
-            export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}")
+            # export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}")
             
-            URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
-            #URL="http://google.com"
+            # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
+            # #URL="http://google.com"
 
-            if curl -s --head ${URL}
+            # if curl -s --head ${URL}
+            # then
+            #   echo "It worked!"
+            #   exit 0
+            # else
+            #   echo "Rolling Back"
+            #   exit 1
+            # fi
+
+             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+            export API_URL="http://$BACKEND_PUBLIC_IP:3030"
+            if curl -s $API_URL/api/status | grep "ok"
             then
-              echo "It worked!"
               exit 0
             else
-              echo "Rolling Back"
               exit 1
             fi
 
