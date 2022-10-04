@@ -267,7 +267,7 @@ jobs:
             npm run premigrations
             npm run migrations >> migrations_dump.txt
             cat migrations_dump.txt    
-            cat .env
+            #cat .env
       ##"has been executed successfully"
       - run:
           name: Send migration results to kvdb.io
