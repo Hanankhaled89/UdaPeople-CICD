@@ -225,7 +225,7 @@ jobs:
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
-      - image: cimg/python:3.10 #cimg/base:stable
+      - image: cimg/base:stable
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -256,13 +256,13 @@ jobs:
   #npm run premigrations
   run-migrations:
     docker:
-     - image: cimg/node:13.8.0  #cimg/base:stable #
+     - image: cimg/base:stable #cimg/node:13.8.0  # #
     steps:
       - checkout
       - install_awscli
       - install_nodejs
-      - restore_cache:
-          keys: [backend-deps]
+      # - restore_cache:
+      #     keys: [backend-deps]
   
       - run:
           name: Run migrations
