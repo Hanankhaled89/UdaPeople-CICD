@@ -231,7 +231,8 @@ jobs:
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
-          fingerprints: ["19:ce:6b:9b:ae:8b:cb:d6:b8:15:36:21:87:f6:f3:05"]
+          #fingerprints: ["19:ce:6b:9b:ae:8b:cb:d6:b8:15:36:21:87:f6:f3:05"] West2
+          fingerprints: ["02:23:f6:ed:0c:9d:fe:f7:05:f5:7b:7d:4f:18:f9:33"]
       - attach_workspace:
             at: ~/
       # - run:
@@ -328,8 +329,8 @@ jobs:
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
-          fingerprints: ["19:ce:6b:9b:ae:8b:cb:d6:b8:15:36:21:87:f6:f3:05"]
-          #fingerprints: ["44:87:f8:c8:91:a0:ae:4f:c5:6d:0c:16:3b:a8:61:87"]
+          #fingerprints: ["19:ce:6b:9b:ae:8b:cb:d6:b8:15:36:21:87:f6:f3:05"] #west-2
+          fingerprints: ["02:23:f6:ed:0c:9d:fe:f7:05:f5:7b:7d:4f:18:f9:33"]
       - attach_workspace:
             at: ~/
       - restore_cache:
