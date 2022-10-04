@@ -154,14 +154,13 @@ jobs:
         - restore_cache:
             keys: [frontend-deps]
         - run:
-            name: Front-end scan
+            name: scan front-end
             command: |
               cd frontend
               npm install
-              npm audit fix --force  --audit-level=critical
-#              nmp audit fix --force --audit-level=critical
-#              npm  audit    audit-level=critical
-#              npm --audit-level-critical
+              npm audit fix --force --audit-level=critical
+              npm audit --audit-level=critical
+             
         
   scan-backend:
     docker:
@@ -175,9 +174,9 @@ jobs:
             command: |
               cd frontend
               npm install
-              npm audit fix --force  --audit-level=critical
-#              nmp audit fix --force --audit-level=critical
-#              npm  audit    audit-level=critical
+              npm audit fix --force --audit-level=critical
+              nmp audit fix --force --audit-level=critical
+              npm audit --audit-level=critical
 
   deploy-infrastructure:
     docker:
@@ -221,6 +220,7 @@ jobs:
      # - destroy-environment
       #
          
+
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
@@ -261,7 +261,7 @@ jobs:
       - install_awscli
       - install_nodejs
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-deps]
   
       - run:
           name: Run migrations
