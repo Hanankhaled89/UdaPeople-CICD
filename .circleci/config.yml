@@ -419,7 +419,7 @@ jobs:
             export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}")
             
             #URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
-            URL="http://google.com"
+            URL="http://g00gle.com"
 
             if curl -s --head ${URL}
             then
@@ -492,7 +492,8 @@ jobs:
                 --query "StackSummaries[*].StackName" \
                 --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
             echo Stack names: "${STACKS[@]}"
-            export OldWorkflowID = $(curl --insecure https://kvdb.io/${KVDB_BUCKET}/old_workflow_id)
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/old_workflow_id)
+
             echo Old Workflow ID: $OldWorkflowID 
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
