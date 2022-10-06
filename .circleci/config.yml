@@ -158,9 +158,9 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Scan front-end
+          name: Scan back-end
           command: |
-            cd frontend
+            cd backend
             npm install
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical
@@ -253,8 +253,8 @@ jobs:
             else
               echo "No migrations are pending"
             fi
-      - destroy-environment
-      - revert-migrations
+      #- destroy-environment
+      #- revert-migrations
 
   deploy-frontend:
     docker:
